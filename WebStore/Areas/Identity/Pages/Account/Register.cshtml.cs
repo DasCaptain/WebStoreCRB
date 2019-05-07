@@ -69,12 +69,13 @@ namespace WebStore.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnRegisterCustomerAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
-            {           
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, Customer = { FullName = Input.FullName } };
+            {
+                var c = new Customer { FullName = Input.FullName };
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, Customer = c };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

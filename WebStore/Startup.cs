@@ -14,6 +14,8 @@ using Microsoft.EntityFrameworkCore;
 using WebStore.Models;
 using WebStore.Data;
 using WebStore.Services;
+using WebStore.Services.Claims;
+using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -46,6 +48,7 @@ namespace WebStore
                  .AddEntityFrameworkStores<ApplicationDbContext>()
                  .AddDefaultTokenProviders();
 
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddRazorPagesOptions(options =>
                 {
@@ -60,6 +63,8 @@ namespace WebStore
                     options.LogoutPath = $"/Identity/Account/Logout";
                     options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
                 });
+
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipleFactory>();
 
             services.AddSingleton<IEmailSender, EmailSender>();
         }

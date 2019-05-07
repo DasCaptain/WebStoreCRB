@@ -8,6 +8,9 @@ namespace WebStore.Models
 {
     public class ApplicationUser : IdentityUser
     {
+        public string CustomerId { get; set; }
+        public string ProviderId { get; set; }
+        public string Discriminator { get; set; }
         public virtual Provider Provider { get; set; }
         public virtual Customer Customer { get; set; }
 

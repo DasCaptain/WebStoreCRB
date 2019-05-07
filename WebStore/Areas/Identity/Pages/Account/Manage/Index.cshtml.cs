@@ -29,8 +29,9 @@ namespace WebStore.Areas.Identity.Pages.Account.Manage
         }
 
         public string Username { get; set; }
-
         public bool IsEmailConfirmed { get; set; }
+        public Customer Cust { get; set; }
+
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -47,16 +48,21 @@ namespace WebStore.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            [Display(Name = "FullName")]
+            public string FullName { get; set; }
+
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
+
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-
+            
             var userName = await _userManager.GetUserNameAsync(user);
             var email = await _userManager.GetEmailAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
@@ -65,6 +71,7 @@ namespace WebStore.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
+                FullName = "Name should show here" ,
                 Email = email,
                 PhoneNumber = phoneNumber
             };
